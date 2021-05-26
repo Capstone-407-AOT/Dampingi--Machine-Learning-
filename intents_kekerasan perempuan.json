@@ -1,0 +1,21 @@
+{"intents": [
+        {"tag": "K_peremppuan_apa",
+         "patterns": [ "kekerasan", "pelecehan seksual", "kekerasan fisik","perkosaan","kekerasan eksploitatif","intimidasi" ],
+         "responses": ["Jenis kekerasan apa yang terjadi ?"],
+         "context_set": ""
+        },
+        {"tag": "k_perempuan_dimana",
+         "patterns": ["Rumah", "Jalan", "Sekolah","Tempat umum","Mall","Dapur","Kamar"],
+         "responses": ["Kejadiannya terjadi dimana?"]
+        },
+        {"tag": "k_perempuan_Kapan",
+         "patterns": ["Barusan", "Tadi siang", "Tadi pagi","Kemarin","beberapa hari yang lalu","{tanggal}"],
+         "responses": ["Kapan hal itu terjadi?"]
+        },
+        {"tag": "k_perempuan_siapa",
+         "patterns": ["keluarga", "kerabat", "suami", "orangtua" ,"ayah" ,"paman","teman","orang asing" ],
+         "responses": ["Siapa pelaku tindak tersebut ?"]
+        }
+   ]
+}
+

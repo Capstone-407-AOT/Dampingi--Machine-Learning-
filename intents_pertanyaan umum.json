@@ -1,0 +1,30 @@
+{"intents": [
+        {"tag": "greeting",
+         "patterns": ["Hi", "Hallo", "Selamat pagi", "Selamat siang", "Selamat sore"],
+         "responses": ["Selamat pagi, terimakasih telah menghubungi kami", "Selamat siang, terimakasih telah menghubungi kami", "Selamat sore, terimakasih telah menghubungi kami"],
+         "context_set": ""
+        },
+        {"tag": "Konfirmasi_nama",
+         "patterns": ["iya", "benar", "betul","bukan","tepat sekali","salah"],
+         "responses": ["Apakah ini dengan {nama}?", "Apakah benar ini{nama}?"]
+        }, 
+        
+        {"tag": "Konfirmasi_NIK",
+         "patterns": ["iya", "benar", "betul","bukan","tepat sekali","salah"],
+         "responses": ["Benarkah nik kamu {nik}?"]
+        },
+        {"tag": "Konfirmasi_alamat",
+                "patterns": ["iya", "benar", "betul","bukan","tepat sekali","salah"],
+                "responses": ["benarkah kamu tinggal di{alamat_tinggal}?"]
+               },
+        {"tag": "diagnosa",
+         "patterns": ["kekerasan", "pelecehan seksual", "kekerasan fisik","perkosaan","kekerasan eksploitatif","intimidasi" ],
+         "responses": ["Apa yang terjadi?"]
+        },
+        {"tag": "Konfirmasi_diagnosa",
+         "patterns": ["iya", "benar", "betul","bukan","tepat sekali","salah" ],
+         "responses": ["Jadi bisa dibilang telah terjadi{kategori} pada kamu ?"]
+        }
+   ]
+}
+
