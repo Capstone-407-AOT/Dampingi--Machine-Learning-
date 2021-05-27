@@ -1,0 +1,110 @@
+{
+  "intents": [
+    {
+      "tag": "greeting",
+      "patterns": [
+        "Hi",
+        "Hallo",
+        "Selamat pagi",
+        "Selamat siang",
+        "Selamat sore"
+      ],
+      "responses": [
+        "Selamat pagi, terimakasih telah menghubungi kami",
+        "Selamat siang, terimakasih telah menghubungi kami",
+        "Selamat sore, terimakasih telah menghubungi kami"
+      ],
+      "context_set": ""
+    },
+    {
+      "tag": "Konfirmasi_nama",
+      "patterns": ["iya", "benar", "betul", "bukan", "tepat sekali", "salah"],
+      "responses": ["Apakah ini dengan {nama}?", "Apakah benar ini{nama}?"]
+    },
+
+    {
+      "tag": "Konfirmasi_NIK",
+      "patterns": ["iya", "benar", "betul", "bukan", "tepat sekali", "salah"],
+      "responses": ["Benarkah nik kamu {nik}?"]
+    },
+    {
+      "tag": "Konfirmasi_alamat",
+      "patterns": ["iya", "benar", "betul", "bukan", "tepat sekali", "salah"],
+      "responses": ["benarkah kamu tinggal di{alamat_tinggal}?"]
+    },
+    {
+      "tag": "diagnosa",
+      "patterns": [
+        "kekerasan",
+        "pelecehan seksual",
+        "kekerasan fisik",
+        "perkosaan",
+        "kekerasan eksploitatif",
+        "intimidasi"
+      ],
+      "responses": ["Apa yang terjadi?"]
+    },
+    {
+      "tag": "Konfirmasi_diagnosa",
+      "patterns": ["iya", "benar", "betul", "bukan", "tepat sekali", "salah"],
+      "responses": ["Jadi bisa dibilang telah terjadi{kategori} pada kamu ?"]
+    },
+    {
+      "tag": "K_anak_apa",
+      "patterns": [
+        "kekerasan",
+        "pelecehan seksual",
+        "kekerasan fisik",
+        "perkosaan",
+        "kekerasan eksploitatif",
+        "intimidasi"
+      ],
+      "responses": ["Jenis kekerasan apa yang terjadi ?"],
+      "context_set": ""
+    },
+    {
+      "tag": "k_anak_dimana",
+      "patterns": [
+        "Rumah",
+        "Jalan",
+        "Sekolah",
+        "Tempat umum",
+        "Mall",
+        "Dapur",
+        "Kamar"
+      ],
+      "responses": ["Kejadiannya terjadi dimana?"]
+    },
+    {
+      "tag": "k_anak_Kapan",
+      "patterns": [
+        "Barusan",
+        "Tadi siang",
+        "Tadi pagi",
+        "Kemarin",
+        "beberapa hari yang lalu",
+        "{tanggal}"
+      ],
+      "responses": ["Kapan hal itu terjadi?"]
+    },
+    {
+      "tag": "k_anak_siapa",
+      "patterns": [
+        "keluarga",
+        "kerabat",
+        "suami",
+        "orangtua",
+        "ayah",
+        "paman",
+        "teman",
+        "orang asing"
+      ],
+      "responses": ["Siapa pelaku tindak tersebut ?"]
+    },
+    {
+      "tag": "k_anak_siapa_yang_melapor",
+      "patterns": ["keluarga", "kerabat", "orangtua", "teman"],
+      "responses": ["Siapa yang melakukan pelaporan ini ?"]
+    }
+  ]
+}
