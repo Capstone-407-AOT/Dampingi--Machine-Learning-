@@ -13,7 +13,7 @@ import pickle
 stemmer = LancasterStemmer()
 seat_count = 50
 
-with open("intents.json") as file:
+with open("training.json") as file:
 	data = json.load(file)
 with open("data.pickle","rb") as f:
 	words, labels, training, output = pickle.load(f)
