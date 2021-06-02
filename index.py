@@ -118,11 +118,11 @@ pertanyaan = {
 }
 daftar_pertanyaan = ["konfirmasi_nama","konfirmasi_nik","konfirmasi_alamat","konfirmasi_nohp"]
 
-formulir_data_awal = {
+formulir = {
+    "id":{
 
+    }
 }
-
-formulir = {}
 
 @app.route('/')
 def index():
@@ -210,7 +210,6 @@ def percakapan():
         print(context)
 
         # tentukan kesesuain dengan intent/context & isi data ke formulir
-
         if context=="konfirmasi_nama" and tag=="affirmative" :
             formulir[id_percakapan]['name_correct']=True
             daftar_pertanyaan.remove("konfirmasi_nama")
@@ -228,14 +227,19 @@ def percakapan():
         if len(daftar_pertanyaan) == 0:
             next_step="tutup_percakapan"
 
+        next_pertanyaan=daftar_pertanyaan[0]
+        next_pertanyaan_key=pertanyaan[next_pertanyaan]["key_pesan"]
+        next_pertanyaan_options=pertanyaan[next_pertanyaan]["options"]
+        next_pertanyaan_pesan=pertanyaan[next_pertanyaan]["pesan"]
+
         # beri pertanyaan selanjutnya
         return jsonify(
             error=False,
             formulir=formulir[id_percakapan],
             id_percakapan=id_percakapan,
-            message=["Baiklah", pertanyaan[daftar_pertanyaan[0]]["pesan"].replace("____", formulir[id_percakapan][pertanyaan[daftar_pertanyaan[0]]["key"]])],
-            context=daftar_pertanyaan[0],
-            options=pertanyaan[daftar_pertanyaan[0]]["options"],
+            message=["Baiklah", next_pertanyaan_pesan.replace("____", formulir[id_percakapan][next_pertanyaan_key] )],
+            context=next_pertanyaan,
+            options=next_pertanyaan_options,
             next_step=next_step
         )
 
