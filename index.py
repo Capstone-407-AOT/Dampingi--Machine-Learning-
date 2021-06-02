@@ -20,6 +20,8 @@ import uuid
 
 # mysql = MySQL(app)
 
+nltk.download('punkt')
+
 stemmer = LancasterStemmer()
 
 with open("training.json") as file:
@@ -173,7 +175,6 @@ def percakapan():
 
     # expected data diterima:
         # id_percakapan : 24132511532
-        # nama: "Agung Ananda"
         # pesan: "ya, benar"
         # context "konfirmasi_nama"
 
