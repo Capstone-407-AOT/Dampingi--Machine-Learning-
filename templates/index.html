@@ -146,8 +146,6 @@
         messages_el.innerHTML = messages;
       }
 
-      update_message_list();
-
       input_el.addEventListener("keyup", function (event) {
         if (event.key === "Enter") {
           const input_text = input_el.value.trim();
@@ -162,6 +160,22 @@
           }
         }
       });
+
+      fetch(
+        "http://34.87.110.57/mulai?nama=Agung&nohp=085251293285&nik=9387517295793257932&alamat=pontianak, kalimantan barat"
+      )
+        .then((res) => res.json())
+        .then((res) => {
+          console.log(res.message);
+          const message = res.message;
+          const data_dapet = res.message.map((msg, idx) => ({
+            message: msg,
+            id: idx,
+            me: false,
+          }));
+          data = data_dapet;
+          update_message_list();
+        });
     </script>
   </body>
 </html>
