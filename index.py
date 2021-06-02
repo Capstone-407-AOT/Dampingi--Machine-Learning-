@@ -256,13 +256,13 @@ def percakapan():
         # gimana cycle pertanyaan nya
 
 
-@app.route('/tutup_percakapan ')
+@app.route('/tutup_percakapan')
 def tutup_percakapan():
     
     id_percakapan = request.args.get('id_percakapan')
 
     # simpan/kirim informasi final
-    
+
     # beri informasi final & tutup percakapan
     
     ## buat local copy
