@@ -1,0 +1,22 @@
+endpoints:
+
+- mulai_percakapan:
+    - inisiasi data mulai percakapan
+    - terima dan cek data pengguna
+    - tentukan data yg dibutuh kan
+    - mulai pertanyaan awal
+
+- percakapan:
+    - terima jawaban
+    - tentukan intent jawaban
+    - tentukan kesesuaian dengan context
+    - ini data ke form
+    - beri pertanyaan selanjutnya
+
+
+- tutup_percakapan
+    - beri informasi final
+    - simpan/kirim data final
+    - tutup percakapan
+
+   
