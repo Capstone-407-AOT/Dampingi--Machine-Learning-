@@ -13,12 +13,12 @@ import pickle
 import uuid
   
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'dampingi_chatbot'
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = 'root'
+# app.config['MYSQL_DB'] = 'dampingi_chatbot'
 
-mysql = MySQL(app)
+# mysql = MySQL(app)
 
 stemmer = LancasterStemmer()
 
@@ -84,7 +84,34 @@ data_dibutuhkan = {
     }
 }
 
-pertanyaan = {}
+pertanyaan = {
+    "konfirmasi_nama":{
+        "mengisi":"nama",
+        "accept":["affirmative","negative"],
+        "options":["benar","salah"]
+    },
+    "konfirmasi_nik":{
+        "mengisi":"nik",
+        "accept":["affirmative","negative"],
+        "options":["benar","salah"]
+    },
+    "konfirmasi_alamat":{
+        "mengisi":"alamat",
+        "accept":["affirmative","negative"],
+        "options":["benar","salah"]
+    },
+    "konfirmasi_nohp":{
+        "mengisi":"nohp",
+        "accept":["affirmative","negative"],
+        "options":["benar","salah"]
+    }
+}
+daftar_pertanyaan = ["nama","nik","alamat","nohp"]
+
+formulir_data_awal = {
+
+}
+
 formulir = {}
 
 @app.route('/')
@@ -104,15 +131,16 @@ def get_mulai_percakapan():
     pertanyaan = data_dibutuhkan["data_awal"]
 
     ## simpan ke db
-    cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO percakapan(id_percakapan) VALUES (%s)",
-                (id))
-    mysql.connection.commit()
-    cur.close()
+    # cur = mysql.connection.cursor()
+    # cur.execute("INSERT INTO percakapan(id_percakapan) VALUES (%s)",
+    #             (id))
+    # mysql.connection.commit()
+    # cur.close()
 
     # terima dan cek data pengguna 
     nama = request.args.get('nama')
     nik = request.args.get('nik')
+    nohp = request.args.get('nohp')
     alamat = request.args.get('alamat')
     print(nama, nik, alamat)
 
@@ -122,7 +150,8 @@ def get_mulai_percakapan():
         formulir['nik']=nik
     if alamat:
         formulir['alamat']=alamat
-
+    if nohp:
+        formulir['nohp']=nohp
     print("formulir", formulir)
 
     
@@ -133,7 +162,7 @@ def get_mulai_percakapan():
         id_percakapan=id_percakapan,
         message=["Halo!","Selamat pagi", "Saya merupakan agent otomatis dari Dampingi. Saya akan membantu anda hari ini!", "Sebelumnya saya ingin mengonfirmasi beberapa hal.", "Benarkah nama kamu %s?" % nama],
         context="konfirmasi_nama",
-        options=["Benar","Bukan"],
+        options=pertanyaan["konfirmasi_nama"]["options"],
         next_step="percakapan"
     )
     # todo:
