@@ -233,7 +233,7 @@ def percakapan():
             error=False,
             formulir=formulir[id_percakapan],
             id_percakapan=id_percakapan,
-            message=["Baiklah", pertanyaan[daftar_pertanyaan[0]]["pesan"].replace("____",formulir[id_percakapan][pertanyaan[daftar_pertanyaan[0]]["key"]]),
+            message=["Baiklah", pertanyaan[daftar_pertanyaan[0]]["pesan"].replace("____", formulir[id_percakapan][pertanyaan[daftar_pertanyaan[0]]["key"]])],
             context=daftar_pertanyaan[0],
             options=pertanyaan[daftar_pertanyaan[0]]["options"],
             next_step=next_step
