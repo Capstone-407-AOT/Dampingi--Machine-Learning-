@@ -126,7 +126,7 @@ def get_mulai_percakapan():
 
     # generate id percakapan
 
-    id_percakapan = uuid.uuid4()
+    id_percakapan = uuid.uuid4().hex
 
     # inisialisasi data mulai percakapan
     ## tentukan data yang dibutuhkan
@@ -154,7 +154,7 @@ def get_mulai_percakapan():
         formulir[id_percakapan]['alamat']=alamat
     if nohp:
         formulir[id_percakapan]['nohp']=nohp
-    print("formulir", formulir)
+    print("formulir", formulir[id_percakapan])
 
     
     # mulai percakapan awal
