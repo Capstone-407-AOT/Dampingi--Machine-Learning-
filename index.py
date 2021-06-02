@@ -236,7 +236,7 @@ def percakapan():
             next_pertanyaan_key=pertanyaan[next_pertanyaan]["key_pesan"]
             next_pertanyaan_options=pertanyaan[next_pertanyaan]["options"]
             next_pertanyaan_pesan=pertanyaan[next_pertanyaan]["pesan"]
-            next_pertanyaan_pesan_akhir = next_pertanyaan_pesan.replace("____", formulir[id_percakapan][next_pertanyaan_key]
+            next_pertanyaan_pesan_akhir=next_pertanyaan_pesan.replace("____", formulir[id_percakapan][next_pertanyaan_key])
 
         # beri pertanyaan selanjutnya
         return jsonify(
