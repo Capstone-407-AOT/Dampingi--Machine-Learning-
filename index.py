@@ -10,16 +10,17 @@ import tensorflow as tf
 import random
 import json
 import pickle
+import uuid
+  
 
-app.config['MYSQL_HOST'] = 'localhost'
-app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = 'root'
-app.config['MYSQL_DB'] = 'MyDB'
+# app.config['MYSQL_HOST'] = 'localhost'
+# app.config['MYSQL_USER'] = 'root'
+# app.config['MYSQL_PASSWORD'] = 'root'
+# app.config['MYSQL_DB'] = 'dampingi_chatbot'
 
-mysql = MySQL(app)
+# mysql = MySQL(app)
 
 stemmer = LancasterStemmer()
-seat_count = 50
 
 with open("training.json") as file:
     data = json.load(file)
@@ -27,7 +28,6 @@ with open("data.pickle", "rb") as f:
     words, labels, training, output = pickle.load(f)
 
 # Function to process input
-
 
 def bag_of_words(s, words):
     bag = [0 for _ in range(len(words))]
@@ -58,91 +58,190 @@ model.load("model.tflearn")
 
 app = Flask(__name__)
 
-
 data_dibutuhkan = {
     "data_awal": {
-        "nama": ""
+        "nama": "",
+        "nik":"",
+        "alamat":"",
+        "diagnosa":"",
+        "kategori":""
     },
     "kategori": {
         "kekerasan_anak": {
-
+            "jenis":"",
+            "dimana":"",
+            "kapan":"",
+            "siapa":"",
+            "yang_melapor":""
         },
         "kekerasan_perempuan": {
-
+            "jenis":"",
+            "dimana":"",
+            "kapan":"",
+            "siapa":"",
+            "yang_melapor":""
         }
     }
 }
 
+pertanyaan = {
+    "konfirmasi_nama":{
+        "mengisi":"nama",
+        "accept":["affirmative","negative"],
+        "options":["benar","salah"]
+    },
+    "konfirmasi_nik":{
+        "mengisi":"nik",
+        "accept":["affirmative","negative"],
+        "options":["benar","salah"]
+    },
+    "konfirmasi_alamat":{
+        "mengisi":"alamat",
+        "accept":["affirmative","negative"],
+        "options":["benar","salah"]
+    },
+    "konfirmasi_nohp":{
+        "mengisi":"nohp",
+        "accept":["affirmative","negative"],
+        "options":["benar","salah"]
+    }
+}
+daftar_pertanyaan = ["nama","nik","alamat","nohp"]
+
+formulir_data_awal = {
+
+}
+
+formulir = {}
 
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
-@app.route('/mulai/:id_percakapan ')
+@app.route('/mulai')
 def get_mulai_percakapan():
 
-    global seat_count
+    # generate id percakapan
 
-    message = request.args.get('msg')
+    id_percakapan = uuid.uuid4()
 
-    if message:
-        message = message.lower()
-        results = model.predict([bag_of_words(message, words)])[0]
-        result_index = np.argmax(results)
-        tag = labels[result_index]
+    # inisialisasi data mulai percakapan
+    ## tentukan data yang dibutuhkan
+    pertanyaan = data_dibutuhkan["data_awal"]
 
-        for tg in data['intents']:
-            if tg['tag'] == tag:
-                responses = tg['responses']
+    ## simpan ke db
+    # cur = mysql.connection.cursor()
+    # cur.execute("INSERT INTO percakapan(id_percakapan) VALUES (%s)",
+    #             (id))
+    # mysql.connection.commit()
+    # cur.close()
 
-                response = random.choice(responses)
-        return str(response)
-    return "Missing Data!"
+    # terima dan cek data pengguna 
+    nama = request.args.get('nama')
+    nik = request.args.get('nik')
+    nohp = request.args.get('nohp')
+    alamat = request.args.get('alamat')
+    print(nama, nik, alamat)
 
+    if nama:
+        formulir['nama']=nama
+    if nik:
+        formulir['nik']=nik
+    if alamat:
+        formulir['alamat']=alamat
+    if nohp:
+        formulir['nohp']=nohp
+    print("formulir", formulir)
 
-@app.route('/percakapan/:id_percakapan ')
+    
+    # mulai percakapan awal
+    return jsonify(
+        error=False,
+        formulir=formulir,
+        id_percakapan=id_percakapan,
+        message=["Halo!","Selamat pagi", "Saya merupakan agent otomatis dari Dampingi. Saya akan membantu anda hari ini!", "Sebelumnya saya ingin mengonfirmasi beberapa hal.", "Benarkah nama kamu %s?" % nama],
+        context="konfirmasi_nama",
+        options=pertanyaan["konfirmasi_nama"]["options"],
+        next_step="percakapan"
+    )
+    # todo:
+        # for each message di simpan ke db pesan
+
+@app.route('/percakapan')
 def percakapan():
 
-    global seat_count
+    # expected data diterima:
+        # id_percakapan : 24132511532
+        # nama: "Agung Ananda"
+        # pesan: "ya, benar"
+        # context "konfirmasi_nama"
 
-    message = request.args.get('msg')
+    #terima jawaban
+    id_percakapan = request.args.get('id_percakapan')
+    nama = request.args.get('nama')
+    pesan = request.args.get('pesan')
+    context = request.args.get('context')
 
-    if message:
-        message = message.lower()
-        results = model.predict([bag_of_words(message, words)])[0]
+    print("data diterima")
+    print(id_percakapan)
+    print(nama)
+    print(pesan)
+
+    # tentukan intent jawaban
+    if pesan:
+        pesan = pesan.lower()
+        results = model.predict([bag_of_words(pesan, words)])[0]
         result_index = np.argmax(results)
         tag = labels[result_index]
 
-        for tg in data['intents']:
-            if tg['tag'] == tag:
-                responses = tg['responses']
+        print("predict:")
+        print(results)
+        print(result_index)
+        print(tag)
 
-                response = random.choice(responses)
-        return str(response)
-    return "Missing Data!"
+        # tentukan kesesuain dengan intent/context
+
+        # isi data ke formulir
+
+        # beri pertanyaan selanjutnya
+        return jsonify(
+            error=False,
+            formulir=formulir,
+            id_percakapan=id_percakapan,
+            message=["Baiklah", "Benarkah nik kamu %s?" % nik],
+            context="konfirmasi_nik",
+            options=["Benar","Bukan"],
+            next_step="percakapan"
+        )
+
+    return jsonify(
+        error=True
+    )
+    # todo
+        # gimana cycle pertanyaan nya
 
 
 @app.route('/tutup_percakapan/:id_percakapan ')
 def tutup_percakapan():
+    
+    # simpan/kirim informasi final
 
-    global seat_count
+    # beri informasi final & tutup percakapan
 
-    message = request.args.get('msg')
-
-    if message:
-        message = message.lower()
-        results = model.predict([bag_of_words(message, words)])[0]
-        result_index = np.argmax(results)
-        tag = labels[result_index]
-
-        for tg in data['intents']:
-            if tg['tag'] == tag:
-                responses = tg['responses']
-
-                response = random.choice(responses)
-        return str(response)
-    return "Missing Data!"
+    return jsonify(
+        error=False,
+        formulir=formulir,
+        id_percakapan=id_percakapan,
+        message=["Baiklah", "Benarkah nik kamu %s?" % nik],
+        context="tutup_pecakapan",
+        options=[],
+        next_step="end"
+    )
+    # todo:
+        # apakah perlu konfirmasi_nama
+        # kirim data kemana
+        # simpan ke db pelaporan
 
 
 if __name__ == "__main__":

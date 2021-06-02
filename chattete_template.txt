@@ -1,0 +1,262 @@
+
+~[penunjuk]
+   itu 
+   ini
+   sekali  
+   begitu  
+
+~[affirmative]
+   y
+   ya
+   iya
+   iy
+   yuhu
+   yup
+   bnr
+   benar
+   betul
+   tepat
+   iyo
+   iye
+   
+~[negative]
+    bukan
+    tidak
+    bkan
+    bkn
+    slh
+    nggak
+    tdk
+    salah
+    g
+
+~[waktu_greeting]
+    pagi
+    siang
+    sore
+    malam
+
+~[selamat]
+    selamat
+    halo, selamat
+
+~[penunjuk_diri]
+    saya
+    aku
+    diriku
+    daku
+    saye
+    aq
+
+~[penunjuk_orang]
+    dia
+    dirinya
+    ia
+    mereka
+    seorang
+    beberapa orang
+
+~[kata_sambung]
+    telah
+    di
+    kena
+
+~[penunjuk_tempat]
+    di
+    sekitar
+    sekitaran
+    daerah
+    deket
+    dekat
+    diantara
+    antara
+
+~[penunjuk_waktu]
+    saat
+    sekitar
+    kurang lebih
+    antara
+    sekitaran
+    pada
+    saat
+    waktu
+    tadi
+    kemarin
+
+~[awal_lokasi]
+    terjadi
+    kejadiannya
+    kejadian
+
+@[tindak_kekerasan]
+    pukuli
+    dipukuli
+    pukul
+    tendang
+    tendangi
+    tendang
+    ditendang
+    tampar
+    ditampar
+    terajang
+    tinju
+    ditinju
+    siram
+    disiram
+    lempar
+    dilempar
+
+@[tindak_pelecehan]
+    leceh
+    di lecehkan
+    dilecehkan
+    catcalling
+    catcall
+    cabul 
+    seks
+    sek
+    seksual
+    mesum
+    kata jorok
+    menggoda
+
+@[tempat]
+    rumah
+    jalan
+    sekolah
+    mall
+    dapur
+    kamar
+    depan
+    beranda
+    teras
+    belakang
+    tepi jalan
+    kamar mandi
+    wc
+    toilet
+    gang
+    komplek
+    kantor
+    toko
+    warung
+    kampus
+    kelas
+    hotel
+    pasar
+    kedai
+    office
+    
+@[waktu]
+    pagi
+    siang
+    malam
+    sore
+    subuh
+    dinihari
+    tengah malam
+    jam
+    pukul
+    barusan
+    belum lama
+    kemarin
+    hari
+    yang lalu
+
+@[relasi]
+    orang tua
+    keluarga
+    saudara
+    abang
+    kakak
+    adik
+    paman
+    tante
+    sepupu
+    keponakan
+    orang lain
+    tidak dikenal
+    wali
+    tidak tau
+    asing
+    orang asing
+    teman
+    kakek
+    nenek
+    pengasuh
+    ayah
+    ibu
+    bapak
+    papa
+    mamak
+    mama
+    abi
+    umi
+    
+@[orang]
+    orang tua
+    keluarga
+    saudara
+    abang
+    kakak
+    adik
+    paman
+    tante
+    sepupu
+    keponakan
+    orang lain
+    tidak dikenal
+    wali
+    tidak tau
+    asing
+    orang asing
+    preman
+    ojek
+    ojol
+    atasan
+    guru
+    dosen
+    teman
+    penjaga
+    satpam
+    penjual
+    anak anak
+    remaja
+    kakek
+    nenek
+    pengasuh
+    ayah
+    ibu
+    bapak
+    papa
+    mamak
+    mama
+    abi
+    umi
+
+%[affirmative]
+    ~[&affirmative] ~[penunjuk?]
+
+%[negative]
+    ~[&negative] ~[penunjuk?]
+
+%[greeting]
+    ~[&selamat?] ~[waktu_greeting]
+
+%[kekerasan]
+    ~[&penunjuk_diri?] ~[kata_sambung?] @[tindak_kekerasan]
+
+%[pelecehan]
+    ~[&penunjuk_diri?] ~[kata_sambung?] @[tindak_pelecehan]
+
+%[dimana]
+    ~[&awal_lokasi?] ~[penunjuk_tempat?] @[tempat]
+
+%[kapan]
+    ~[&awal_lokasi?] ~[penunjuk_waktu?] @[waktu]
+
+%[siapa_bantu]
+    ~[&penunjuk_diri?] @[relasi]
+
+%[siapa_pelaku]
+    ~[&penunjuk_orang?] @[orang]
