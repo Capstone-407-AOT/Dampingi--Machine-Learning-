@@ -130,7 +130,7 @@ def get_mulai_percakapan():
 
     # inisialisasi data mulai percakapan
     ## tentukan data yang dibutuhkan
-    # pertanyaan = data_dibutuhkan["data_awal"]
+    formulir[id_percakapan] = {}
 
     ## simpan ke db
     # cur = mysql.connection.cursor()
@@ -147,20 +147,20 @@ def get_mulai_percakapan():
     print(nama, nik, alamat)
 
     if nama:
-        formulir['nama']=nama
+        formulir[id_percakapan]['nama']=nama
     if nik:
-        formulir['nik']=nik
+        formulir[id_percakapan]['nik']=nik
     if alamat:
-        formulir['alamat']=alamat
+        formulir[id_percakapan]['alamat']=alamat
     if nohp:
-        formulir['nohp']=nohp
+        formulir[id_percakapan]['nohp']=nohp
     print("formulir", formulir)
 
     
     # mulai percakapan awal
     return jsonify(
         error=False,
-        formulir=formulir,
+        formulir=formulir[id_percakapan],
         id_percakapan=id_percakapan,
         message=["Halo!","Selamat pagi", "Saya merupakan agent otomatis dari Dampingi. Saya akan membantu anda hari ini!", "Sebelumnya saya ingin mengonfirmasi beberapa hal.", "Benarkah nama kamu %s?" % nama],
         context="konfirmasi_nama",
@@ -197,22 +197,25 @@ def percakapan():
         tag = labels[result_index]
 
         print("predict:")
-        print(results)
-        print(result_index)
+        # print(results)
+        # print(result_index)
         print(tag)
 
         # tentukan kesesuain dengan intent/context
 
         # isi data ke formulir
 
+        if context=="konfirmasi_nama" and tag=="affirmative" :
+            formulir[id_percakapan]['name_correct']=True
+
         # beri pertanyaan selanjutnya
         return jsonify(
             error=False,
-            formulir=formulir,
+            formulir=formulir[id_percakapan],
             id_percakapan=id_percakapan,
-            message=["Baiklah", "Benarkah nik kamu %s?" % nik],
+            message=["Baiklah", "Benarkah nik kamu %s?" % formulir[id_percakapan]['nik']],
             context="konfirmasi_nik",
-            options=["Benar","Bukan"],
+            options=pertanyaan["konfirmasi_nik"]["options"],
             next_step="percakapan"
         )
 
