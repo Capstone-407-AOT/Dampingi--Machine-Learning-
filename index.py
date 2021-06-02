@@ -128,7 +128,7 @@ def get_mulai_percakapan():
 
     # inisialisasi data mulai percakapan
     ## tentukan data yang dibutuhkan
-    pertanyaan = data_dibutuhkan["data_awal"]
+    # pertanyaan = data_dibutuhkan["data_awal"]
 
     ## simpan ke db
     # cur = mysql.connection.cursor()
