@@ -226,18 +226,24 @@ def percakapan():
         next_step = "percakapan"
         if len(daftar_pertanyaan) == 0:
             next_step="tutup_percakapan"
+            next_pertanyaan=""
+            next_pertanyaan_key=""
+            next_pertanyaan_options=""
+            next_pertanyaan_pesan_akhir=""
 
-        next_pertanyaan=daftar_pertanyaan[0]
-        next_pertanyaan_key=pertanyaan[next_pertanyaan]["key_pesan"]
-        next_pertanyaan_options=pertanyaan[next_pertanyaan]["options"]
-        next_pertanyaan_pesan=pertanyaan[next_pertanyaan]["pesan"]
+        else:
+            next_pertanyaan=daftar_pertanyaan[0]
+            next_pertanyaan_key=pertanyaan[next_pertanyaan]["key_pesan"]
+            next_pertanyaan_options=pertanyaan[next_pertanyaan]["options"]
+            next_pertanyaan_pesan=pertanyaan[next_pertanyaan]["pesan"]
+            next_pertanyaan_pesan_akhir = next_pertanyaan_pesan.replace("____", formulir[id_percakapan][next_pertanyaan_key]
 
         # beri pertanyaan selanjutnya
         return jsonify(
             error=False,
             formulir=formulir[id_percakapan],
             id_percakapan=id_percakapan,
-            message=["Baiklah", next_pertanyaan_pesan.replace("____", formulir[id_percakapan][next_pertanyaan_key] )],
+            message=["Baiklah", next_pertanyaan_pesan_akhir],
             context=next_pertanyaan,
             options=next_pertanyaan_options,
             next_step=next_step
