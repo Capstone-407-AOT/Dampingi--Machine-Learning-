@@ -2,8 +2,8 @@ endpoints:
 
 - mulai_percakapan:
     - inisiasi data mulai percakapan
-    - terima dan cek data pengguna
     - tentukan data yg dibutuh kan
+    - terima dan cek data pengguna
     - mulai pertanyaan awal
 
 - percakapan:
