@@ -91,25 +91,32 @@ pertanyaan = {
         "mengisi":"nama",
         "accept":["affirmative","negative"],
         "options":["benar","salah"],
-        "pesan":""
+        "pesan":"Benarkah nama kamu ____?",
+        "key_pesan": "nama"
     },
     "konfirmasi_nik":{
         "mengisi":"nik",
         "accept":["affirmative","negative"],
-        "options":["benar","salah"]
+        "options":["benar","salah"],
+        "pesan":"Benarkah nik kamu ____?",
+        "key_pesan": "nik"
     },
     "konfirmasi_alamat":{
         "mengisi":"alamat",
         "accept":["affirmative","negative"],
-        "options":["benar","salah"]
+        "options":["benar","salah"],
+        "pesan":"Benarkah alamat kamu di ____?",
+        "key_pesan": "alamat"
     },
     "konfirmasi_nohp":{
         "mengisi":"nohp",
         "accept":["affirmative","negative"],
-        "options":["benar","salah"]
+        "options":["benar","salah"],
+        "pesan":"Benarkah nomor telpon kamu ____?",
+        "key_pesan": "nohp"
     }
 }
-daftar_pertanyaan = ["nama","nik","alamat","nohp"]
+daftar_pertanyaan = ["konfirmasi_nama","konfirmasi_nik","konfirmasi_alamat","konfirmasi_nohp"]
 
 formulir_data_awal = {
 
@@ -183,7 +190,7 @@ def percakapan():
     id_percakapan = request.args.get('id_percakapan')
     nama = request.args.get('nama')
     pesan = request.args.get('pesan')
-    context = request.args.get('context')
+    context = request.args.get('context').strip()
 
     print("\n\ndata diterima:")
     print(id_percakapan)
@@ -204,37 +211,32 @@ def percakapan():
 
         # tentukan kesesuain dengan intent/context & isi data ke formulir
 
-        print("debug:")
-        print('context=="konfirmasi_nama" and tag=="affirmative"')
-        print(context=="konfirmasi_nama" and tag=="affirmative")
-
-        print('context=="konfirmasi_nik" and tag=="affirmative"')
-        print(context=="konfirmasi_nik" and tag=="affirmative")
-
-        print('context=="konfirmasi_nohp" and tag=="affirmative"')
-        print(context=="konfirmasi_nohp" and tag=="affirmative")
-
-        print('context=="konfirmasi_alamat" and tag=="affirmative"')
-        print(context=="konfirmasi_alamat" and tag=="affirmative")
-
         if context=="konfirmasi_nama" and tag=="affirmative" :
             formulir[id_percakapan]['name_correct']=True
+            daftar_pertanyaan.remove("konfirmasi_nama")
         if context=="konfirmasi_nik" and tag=="affirmative" :
             formulir[id_percakapan]['nik_correct']=True
+            daftar_pertanyaan.remove("konfirmasi_nik")
         if context=="konfirmasi_nohp" and tag=="affirmative" :
             formulir[id_percakapan]['nohp_correct']=True
+            daftar_pertanyaan.remove("konfirmasi_nohp")
         if context=="konfirmasi_alamat" and tag=="affirmative" :
-            formulir[id_percakapan]['alamat_correct']=True        
+            formulir[id_percakapan]['alamat_correct']=True
+            daftar_pertanyaan.remove("konfirmasi_alamat")        
+
+        next_step = "percakapan"
+        if len(daftar_pertanyaan) == 0:
+            next_step="tutup_percakapan"
 
         # beri pertanyaan selanjutnya
         return jsonify(
             error=False,
             formulir=formulir[id_percakapan],
             id_percakapan=id_percakapan,
-            message=["Baiklah", "Benarkah nik kamu %s?" % formulir[id_percakapan]['nik']],
-            context="konfirmasi_nik",
-            options=pertanyaan["konfirmasi_nik"]["options"],
-            next_step="percakapan"
+            message=["Baiklah", pertanyaan[daftar_pertanyaan[0]]["pesan"].replace("____",formulir[id_percakapan][pertanyaan[daftar_pertanyaan[0]]["key"]]),
+            context=daftar_pertanyaan[0],
+            options=pertanyaan[daftar_pertanyaan[0]]["options"],
+            next_step=next_step
         )
 
     return jsonify(
@@ -250,12 +252,18 @@ def tutup_percakapan():
     # simpan/kirim informasi final
 
     # beri informasi final & tutup percakapan
+    
+    ## buat local copy
+    data_akan_dikirim = formulir[id_percakapan]
+
+    ## hapus data (free memory)
+    formulir.pop(id_percakapan)
 
     return jsonify(
         error=False,
-        formulir=formulir,
+        formulir=data_akan_dikirim,
         id_percakapan=id_percakapan,
-        message=["Baiklah", "Benarkah nik kamu %s?" % nik],
+        message=["Baiklah", "Laporan kamu akan kami teruskan untuk ditindak", "Tunggu kabar dari kami yah", "Terimakasih telah melaporkan hal ini dan telah mempercayai kami", "Semoga semua akan menjadi lebih baik"],
         context="tutup_pecakapan",
         options=[],
         next_step="end"
