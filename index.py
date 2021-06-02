@@ -90,7 +90,8 @@ pertanyaan = {
     "konfirmasi_nama":{
         "mengisi":"nama",
         "accept":["affirmative","negative"],
-        "options":["benar","salah"]
+        "options":["benar","salah"],
+        "pesan":""
     },
     "konfirmasi_nik":{
         "mengisi":"nik",
@@ -162,7 +163,7 @@ def get_mulai_percakapan():
         error=False,
         formulir=formulir[id_percakapan],
         id_percakapan=id_percakapan,
-        message=["Halo!","Selamat pagi", "Saya merupakan agent otomatis dari Dampingi. Saya akan membantu anda hari ini!", "Sebelumnya saya ingin mengonfirmasi beberapa hal.", "Benarkah nama kamu %s?" % nama],
+        message=["Halo!","Selamat pagi", "Saya merupakan agent otomatis dari Dampingi. Saya akan membantu anda hari ini!", "Sebelumnya saya ingin mengonfirmasi beberapa hal.", "Benarkah nama kamu %s?" % formulir[id_percakapan]['nama']],
         context="konfirmasi_nama",
         options=pertanyaan["konfirmasi_nama"]["options"],
         next_step="percakapan"
@@ -184,7 +185,7 @@ def percakapan():
     pesan = request.args.get('pesan')
     context = request.args.get('context')
 
-    print("data diterima")
+    print("\n\ndata diterima:")
     print(id_percakapan)
     print(nama)
     print(pesan)
@@ -197,16 +198,33 @@ def percakapan():
         tag = labels[result_index]
 
         print("predict:")
-        # print(results)
-        # print(result_index)
         print(tag)
+        print("context:")
+        print(context)
 
-        # tentukan kesesuain dengan intent/context
+        # tentukan kesesuain dengan intent/context & isi data ke formulir
 
-        # isi data ke formulir
+        print("debug:")
+        print('context=="konfirmasi_nama" and tag=="affirmative"')
+        print(context=="konfirmasi_nama" and tag=="affirmative")
+
+        print('context=="konfirmasi_nik" and tag=="affirmative"')
+        print(context=="konfirmasi_nik" and tag=="affirmative")
+
+        print('context=="konfirmasi_nohp" and tag=="affirmative"')
+        print(context=="konfirmasi_nohp" and tag=="affirmative"")
+
+        print('context=="konfirmasi_alamat" and tag=="affirmative"')
+        print(context=="konfirmasi_alamat" and tag=="affirmative")
 
         if context=="konfirmasi_nama" and tag=="affirmative" :
             formulir[id_percakapan]['name_correct']=True
+        if context=="konfirmasi_nik" and tag=="affirmative" :
+            formulir[id_percakapan]['nik_correct']=True
+        if context=="konfirmasi_nohp" and tag=="affirmative" :
+            formulir[id_percakapan]['nohp_correct']=True
+        if context=="konfirmasi_alamat" and tag=="affirmative" :
+            formulir[id_percakapan]['alamat_correct']=True        
 
         # beri pertanyaan selanjutnya
         return jsonify(
