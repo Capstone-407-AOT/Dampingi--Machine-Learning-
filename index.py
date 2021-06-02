@@ -212,7 +212,7 @@ def percakapan():
         print(context=="konfirmasi_nik" and tag=="affirmative")
 
         print('context=="konfirmasi_nohp" and tag=="affirmative"')
-        print(context=="konfirmasi_nohp" and tag=="affirmative"")
+        print(context=="konfirmasi_nohp" and tag=="affirmative")
 
         print('context=="konfirmasi_alamat" and tag=="affirmative"')
         print(context=="konfirmasi_alamat" and tag=="affirmative")
