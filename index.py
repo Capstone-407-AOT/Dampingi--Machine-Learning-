@@ -261,6 +261,9 @@ def percakapan():
             formulir[id_percakapan]['siapa_pelaku'] = tag
             formulir[id_percakapan]['siapa_pelaku_teks'] = pesan
             daftar_pertanyaan.remove("siapa_pelaku")
+        if context == "bagaimana":
+            formulir[id_percakapan]['bagaimana'] = pesan
+            daftar_pertanyaan.remove("bagaimana")
 
         next_step = "percakapan"
         if len(daftar_pertanyaan) == 0:
