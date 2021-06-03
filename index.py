@@ -139,11 +139,7 @@ daftar_pertanyaan = ["konfirmasi_nama", "konfirmasi_nik", "konfirmasi_alamat",
 
 daftar_pertanyaan_pengguna = {}
 
-formulir = {
-    "id": {
-
-    }
-}
+formulir = {}
 
 
 @app.route('/')
