@@ -134,7 +134,7 @@ pertanyaan = {
     }
 }
 daftar_pertanyaan = ["konfirmasi_nama", "konfirmasi_nik", "konfirmasi_alamat",
-                     "konfirmasi_nohp", "diagnosa", "konfirmasi_diagnosa", "kapan", "dimana", "siapa_pelaku", "bagaimana"]
+                     "konfirmasi_nohp", "diagnosa", "konfirmasi_diagnosa", "kapan", "dimana", "siapa_pelaku"]
 
 formulir = {
     "id": {
@@ -158,6 +158,7 @@ def get_mulai_percakapan():
     # inisialisasi data mulai percakapan
     # tentukan data yang dibutuhkan
     formulir[id_percakapan] = {}
+    # daftar_pertanyaan_pengguna[id_percakapan] = daftar_pertanyaan
 
     # simpan ke db
     # cur = mysql.connection.cursor()
@@ -188,7 +189,7 @@ def get_mulai_percakapan():
         error=False,
         formulir=formulir[id_percakapan],
         id_percakapan=id_percakapan,
-        message=["Halo!", "Selamat pagi", "Saya merupakan agent otomatis dari Dampingi. Saya akan membantu anda hari ini!",
+        message=["Halo!", "Selamat malam", "Saya merupakan agent otomatis dari Dampingi. Saya akan membantu anda hari ini!",
                  "Sebelumnya saya ingin mengonfirmasi beberapa hal.", "Benarkah nama kamu %s?" % formulir[id_percakapan]['nama']],
         context="konfirmasi_nama",
         options=pertanyaan["konfirmasi_nama"]["options"],
