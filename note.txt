@@ -1,5 +1,4 @@
 endpoints:
-
 - mulai_percakapan:
     - inisiasi data mulai percakapan
     - tentukan data yg dibutuh kan
@@ -12,8 +11,7 @@ endpoints:
     - tentukan kesesuaian dengan context
     - ini data ke form
     - beri pertanyaan selanjutnya
-
-
+    
 - tutup_percakapan
     - beri informasi final
     - simpan/kirim data final

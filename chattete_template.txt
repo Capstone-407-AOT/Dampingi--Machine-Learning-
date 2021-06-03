@@ -195,6 +195,7 @@
     
 @[orang]
     orang tua
+    orangtua
     keluarga
     saudara
     abang
@@ -260,3 +261,4 @@
 
 %[siapa_pelaku]
     ~[&penunjuk_orang?] @[orang]
+
