@@ -114,9 +114,44 @@ pertanyaan = {
         "options":["benar","salah"],
         "pesan":"Benarkah nomor telpon kamu ____?",
         "key_pesan": "nohp"
+    },
+    "diagnosa":{
+        "mengisi":"diagnosa",
+        "accept":["kekerasan","pelecehan"],
+        "options":["kekerasan","pelecehan"],
+        "pesan":"Hal apa yang ingin anda laporkan? Apa yang terjadi pada diri anda?",
+        "key_pesan": ""
+    },
+    "konfirmasi_diagnosa":{
+        "mengisi":"diagnosa",
+        "accept":["affirmative","negative"],
+        "options":["benar","salah"],
+        "pesan":"Saya ingin mengkonfirmasi, jadi anda bisa dibilang mengalami tindak ____, benar?",
+        "key_pesan": "diagnosa"
+    },
+    "kapan":{
+        "mengisi":"kapan",
+        "accept":["kapan"],
+        "options":["tadi pagi","barusan"],
+        "pesan":"Kapan kejadiannya terjadi?",
+        "key_pesan": ""
+    },
+    "dimana":{
+        "mengisi":"dimana",
+        "accept":["dimana"],
+        "options":["di rumah","di jalan"],
+        "pesan":"Dimana hal tersebut terjadi?",
+        "key_pesan": ""
+    },
+    "siapa_pelaku":{
+        "mengisi":"siapa_pelaku",
+        "accept":["siapa_pelaku"],
+        "options":[],
+        "pesan":"Siapa yang melakukannya ke kamu?",
+        "key_pesan": ""
     }
 }
-daftar_pertanyaan = ["konfirmasi_nama","konfirmasi_nik","konfirmasi_alamat","konfirmasi_nohp"]
+daftar_pertanyaan = ["konfirmasi_nama","konfirmasi_nik","konfirmasi_alamat","konfirmasi_nohp","diagnosa","konfirmasi_diagnosa","kapan","dimana","siapa_pelaku"]
 
 formulir = {
     "id":{
@@ -221,7 +256,26 @@ def percakapan():
             daftar_pertanyaan.remove("konfirmasi_nohp")
         if context=="konfirmasi_alamat" and tag=="affirmative" :
             formulir[id_percakapan]['alamat_correct']=True
-            daftar_pertanyaan.remove("konfirmasi_alamat")        
+            daftar_pertanyaan.remove("konfirmasi_alamat")    
+        if context=="diagnosa" and (tag=="kekerasan" or tag=="pelecehan") :
+            formulir[id_percakapan]['diagnosa']= tag
+            formulir[id_percakapan]['diagnosa_teks']= pesan
+            daftar_pertanyaan.remove("diagnosa")   
+        if context=="konfirmasi_diagnosa" and tag=="affirmative" :
+            formulir[id_percakapan]['diagnosa_correct']=True
+            daftar_pertanyaan.remove("konfirmasi_diagnosa") 
+        if context=="kapan" and tag=="kapan":
+            formulir[id_percakapan]['kapan']= tag
+            formulir[id_percakapan]['kapan_teks']= pesan
+            daftar_pertanyaan.remove("kapan") 
+        if context=="dimana" and tag=="dimana":
+            formulir[id_percakapan]['dimana']= tag
+            formulir[id_percakapan]['dimana_teks']= pesan
+            daftar_pertanyaan.remove("dimana") 
+        if context=="siapa_pelaku" and tag=="siapa_pelaku":
+            formulir[id_percakapan]['siapa_pelaku']= tag
+            formulir[id_percakapan]['siapa_pelaku_teks']= pesan
+            daftar_pertanyaan.remove("siapa_pelaku") 
 
         next_step = "percakapan"
         if len(daftar_pertanyaan) == 0:
@@ -236,7 +290,7 @@ def percakapan():
             next_pertanyaan_key=pertanyaan[next_pertanyaan]["key_pesan"]
             next_pertanyaan_options=pertanyaan[next_pertanyaan]["options"]
             next_pertanyaan_pesan=pertanyaan[next_pertanyaan]["pesan"]
-            next_pertanyaan_pesan_akhir=next_pertanyaan_pesan.replace("____", formulir[id_percakapan][next_pertanyaan_key])
+            next_pertanyaan_pesan_akhir=next_pertanyaan_pesan.replace("____", formulir[id_percakapan][next_pertanyaan_key]) if next_pertanyaan_key else next_pertanyaan_pesan
 
         # beri pertanyaan selanjutnya
         return jsonify(
