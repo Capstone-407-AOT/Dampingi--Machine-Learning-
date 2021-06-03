@@ -286,7 +286,7 @@ def percakapan():
             error=False,
             formulir=formulir[id_percakapan],
             id_percakapan=id_percakapan,
-            message=["Baiklah", next_pertanyaan_pesan_akhir],
+            message=[next_pertanyaan_pesan_akhir],
             context=next_pertanyaan,
             options=next_pertanyaan_options,
             next_step=next_step
