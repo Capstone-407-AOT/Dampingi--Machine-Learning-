@@ -108,17 +108,11 @@
       </div>
     </div>
     <script>
+      const data_percakapan = {
+        id_percakapan: "",
+        context: "",
+      };
       let data = [
-        {
-          message: "Everything come and go. Such undeniable.",
-          id: 115423,
-          me: true,
-        },
-        {
-          message: "Learn somethings everyday.",
-          id: 115423,
-          me: false,
-        },
         {
           message: "Everything come and go. Such undeniable.",
           id: 115423,
@@ -152,9 +146,28 @@
           if (input_text !== "") {
             data.push({
               message: input_text,
-              id: 4135134,
+              id: new Date().getTime(),
               me: true,
             });
+
+            fetch(
+              `http://34.87.110.57/percakapan?id_percakapan=${data_percakapan.id_percakapan}&context=${data_percakapan.context}&pesan=${input_text}`
+            )
+              .then((res) => res.json())
+              .then((res) => {
+                console.log(res.message);
+                const message = res.message;
+                data_percakapan = { ...data_percakapan, ...res };
+
+                const data_dapet = res.message.map((msg, idx) => ({
+                  message: msg,
+                  id: new Date().getTime + idx,
+                  me: false,
+                }));
+                data = { ...data, ...data_dapet };
+                update_message_list();
+              });
+
             input_el.value = "";
             update_message_list();
           }
@@ -168,6 +181,8 @@
         .then((res) => {
           console.log(res.message);
           const message = res.message;
+          data_percakapan = { ...data_percakapan, ...res };
+
           const data_dapet = res.message.map((msg, idx) => ({
             message: msg,
             id: idx,
