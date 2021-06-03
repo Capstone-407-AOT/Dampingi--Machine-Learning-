@@ -136,6 +136,9 @@ pertanyaan = {
 daftar_pertanyaan = ["konfirmasi_nama", "konfirmasi_nik", "konfirmasi_alamat",
                      "konfirmasi_nohp", "diagnosa", "konfirmasi_diagnosa", "kapan", "dimana", "siapa_pelaku"]
 
+
+daftar_pertanyaan_pengguna = {}
+
 formulir = {
     "id": {
 
@@ -158,7 +161,7 @@ def get_mulai_percakapan():
     # inisialisasi data mulai percakapan
     # tentukan data yang dibutuhkan
     formulir[id_percakapan] = {}
-    # daftar_pertanyaan_pengguna[id_percakapan] = daftar_pertanyaan
+    daftar_pertanyaan_pengguna[id_percakapan] = daftar_pertanyaan
 
     # simpan ke db
     # cur = mysql.connection.cursor()
@@ -233,41 +236,43 @@ def percakapan():
         # tentukan kesesuain dengan intent/context & isi data ke formulir
         if context == "konfirmasi_nama" and tag == "affirmative":
             formulir[id_percakapan]['name_correct'] = True
-            daftar_pertanyaan.remove("konfirmasi_nama")
+            daftar_pertanyaan_pengguna[id_percakapan].remove("konfirmasi_nama")
         if context == "konfirmasi_nik" and tag == "affirmative":
             formulir[id_percakapan]['nik_correct'] = True
-            daftar_pertanyaan.remove("konfirmasi_nik")
+            daftar_pertanyaan_pengguna[id_percakapan].remove("konfirmasi_nik")
         if context == "konfirmasi_nohp" and tag == "affirmative":
             formulir[id_percakapan]['nohp_correct'] = True
-            daftar_pertanyaan.remove("konfirmasi_nohp")
+            daftar_pertanyaan_pengguna[id_percakapan].remove("konfirmasi_nohp")
         if context == "konfirmasi_alamat" and tag == "affirmative":
             formulir[id_percakapan]['alamat_correct'] = True
-            daftar_pertanyaan.remove("konfirmasi_alamat")
+            daftar_pertanyaan_pengguna[id_percakapan].remove(
+                "konfirmasi_alamat")
         if context == "diagnosa" and (tag == "kekerasan" or tag == "pelecehan"):
             formulir[id_percakapan]['diagnosa'] = tag
             formulir[id_percakapan]['diagnosa_teks'] = pesan
-            daftar_pertanyaan.remove("diagnosa")
+            daftar_pertanyaan_pengguna[id_percakapan].remove("diagnosa")
         if context == "konfirmasi_diagnosa" and tag == "affirmative":
             formulir[id_percakapan]['diagnosa_correct'] = True
-            daftar_pertanyaan.remove("konfirmasi_diagnosa")
+            daftar_pertanyaan_pengguna[id_percakapan].remove(
+                "konfirmasi_diagnosa")
         if context == "kapan" and tag == "kapan":
             formulir[id_percakapan]['kapan'] = tag
             formulir[id_percakapan]['kapan_teks'] = pesan
-            daftar_pertanyaan.remove("kapan")
+            daftar_pertanyaan_pengguna[id_percakapan].remove("kapan")
         if context == "dimana" and tag == "dimana":
             formulir[id_percakapan]['dimana'] = tag
             formulir[id_percakapan]['dimana_teks'] = pesan
-            daftar_pertanyaan.remove("dimana")
+            daftar_pertanyaan_pengguna[id_percakapan].remove("dimana")
         if context == "siapa_pelaku" and tag == "siapa_pelaku":
             formulir[id_percakapan]['siapa_pelaku'] = tag
             formulir[id_percakapan]['siapa_pelaku_teks'] = pesan
-            daftar_pertanyaan.remove("siapa_pelaku")
+            daftar_pertanyaan_pengguna[id_percakapan].remove("siapa_pelaku")
         if context == "bagaimana":
             formulir[id_percakapan]['bagaimana'] = pesan
-            daftar_pertanyaan.remove("bagaimana")
+            daftar_pertanyaan_pengguna[id_percakapan].remove("bagaimana")
 
         next_step = "percakapan"
-        if len(daftar_pertanyaan) == 0:
+        if len(daftar_pertanyaan_pengguna[id_percakapan]) == 0:
             next_step = "tutup_percakapan"
             next_pertanyaan = ""
             next_pertanyaan_key = ""
@@ -275,7 +280,7 @@ def percakapan():
             next_pertanyaan_pesan_akhir = ""
 
         else:
-            next_pertanyaan = daftar_pertanyaan[0]
+            next_pertanyaan = daftar_pertanyaan_pengguna[id_percakapan][0]
             next_pertanyaan_key = pertanyaan[next_pertanyaan]["key_pesan"]
             next_pertanyaan_options = pertanyaan[next_pertanyaan]["options"]
             next_pertanyaan_pesan = pertanyaan[next_pertanyaan]["pesan"]
