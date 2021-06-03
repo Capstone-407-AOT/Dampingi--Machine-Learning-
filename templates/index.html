@@ -164,7 +164,7 @@
                   id: new Date().getTime + idx,
                   me: false,
                 }));
-                data = { ...data, ...data_dapet };
+                data = [...data, ...data_dapet];
                 update_message_list();
               });
 
